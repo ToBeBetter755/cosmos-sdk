@@ -22,8 +22,10 @@ func base64Encode(src []byte) []byte {
 
 func base64Decode(src []byte) ([]byte, error) {
 	numOfEquals := 4 - (len(src) % 4)
-	for range numOfEquals {
-		src = append(src, '=')
+	if numOfEquals < 4 { // Add an equal sign only when filling is needed
+		for range numOfEquals {
+			src = append(src, '=')
+		}
 	}
 
 	dst := make([]byte, bcEncoding.DecodedLen(len(src)))
